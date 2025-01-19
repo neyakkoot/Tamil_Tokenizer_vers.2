@@ -1,0 +1,110 @@
+# தமிழ் உரை பகுப்பாய்வி (Tamil Text Analyzer)
+
+## பொதுக் கண்ணோட்டம் (Overview)
+
+தமிழ் உரை பகுப்பாய்வி என்பது தமிழ் உரைகளை ஆய்வு செய்து, அவற்றின் பல்வேறு பண்புகளை அறிய உதவும் கருவியாகும். இது தமிழ் எழுத்துக்கள், சொற்கள் பற்றிய புள்ளிவிவரங்களையும், காட்சிப்படுத்தல்களையும் வழங்குகிறது.
+
+## நிறுவுதல் (Installation)
+
+```bash
+pip install tamil
+pip install pandas
+pip install plotly
+pip install numpy
+```
+
+## முக்கிய அம்சங்கள் (Features)
+
+1. உரை பகுப்பாய்வு
+   - தமிழ் எழுத்துகள் மற்றும் சொற்களின் எண்ணிக்கை
+   - எழுத்து வகைகள் (உயிர், மெய், உயிர்மெய், அகரம்)
+   - அதிகம் பயன்படுத்தப்படும் சொற்கள் மற்றும் எழுத்துகள்
+
+2. காட்சிப்படுத்தல்
+   - சொல் அதிர்வெண் வரைபடம்
+   - எழுத்து வகை பை வரைபடம்
+   - எழுத்து அதிர்வெண் வரைபடம்
+
+3. முடிவுகளை சேமித்தல்
+   - JSON வடிவில் பகுப்பாய்வு முடிவுகள்
+   - HTML வடிவில் காட்சிப்படுத்தல்கள்
+
+## பயன்பாடு (Usage)
+
+### அடிப்படை பயன்பாடு
+
+```python
+from tamil_analyzer import AdvancedTamilAnalyzer
+
+# பகுப்பாய்வாளரை உருவாக்குதல்
+analyzer = AdvancedTamilAnalyzer()
+
+# உரையை ஆய்வு செய்தல்
+text = "தமிழ் மொழி மிகவும் தொன்மையானது."
+results = analyzer.detailed_analysis(text)
+
+# காட்சிப்படுத்தல்களை உருவாக்குதல்
+visualizations = analyzer.generate_visualizations(results, output_dir='output')
+
+# முடிவுகளை சேமித்தல்
+analyzer.save_results(results, 'results.json')
+```
+
+### பல்வேறு மூலங்களிலிருந்து உரை ஏற்றுதல்
+
+```python
+# கோப்பிலிருந்து
+text = analyzer.load_text('sample.txt', source_type='file')
+
+# CSV கோப்பிலிருந்து
+text = analyzer.load_text('data.csv', source_type='csv', column_name='content')
+
+# நேரடி உரை
+text = analyzer.load_text('தமிழ் உரை', source_type='text')
+```
+
+## API References
+
+### AdvancedTamilAnalyzer
+
+#### Methods
+
+##### `__init__(self)`
+பகுப்பாய்வாளரை துவக்குகிறது.
+
+##### `load_text(self, source: Union[str, Path], source_type: str = 'file', column_name: str = None) -> str`
+பல்வேறு மூலங்களிலிருந்து உரையை ஏற்றுகிறது.
+
+**Parameters:**
+- `source`: கோப்பு பாதை அல்லது உரை
+- `source_type`: 'file', 'csv', அல்லது 'text'
+- `column_name`: CSV கோப்புக்கான நெடுவரிசை பெயர்
+
+##### `detailed_analysis(self, text: str) -> Dict`
+உரையின் விரிவான பகுப்பாய்வை மேற்கொள்கிறது.
+
+**Parameters:**
+- `text`: ஆய்வு செய்ய வேண்டிய உரை
+
+**Returns:**
+பகுப்பாய்வு முடிவுகள் அகராதி வடிவில்
+
+##### `generate_visualizations(self, analysis_results: Dict, output_dir: str = None)`
+பகுப்பாய்வு முடிவுகளுக்கான காட்சிப்படுத்தல்களை உருவாக்குகிறது.
+
+**Parameters:**
+- `analysis_results`: பகுப்பாய்வு முடிவுகள்
+- `output_dir`: வெளியீட்டு கோப்புறை (optional)
+
+##### `save_results(self, results: Dict, output_file: str)`
+பகுப்பாய்வு முடிவுகளை JSON வடிவில் சேமிக்கிறது.
+
+**Parameters:**
+- `results`: பகுப்பாய்வு முடிவுகள்
+- `output_file`: வெளியீட்டு கோப்பு பெயர்
+
+## எச்சரிக்கைகள் (Warnings)
+
+1. பெரிய உரைகளுக்கு அதிக நேரம் எடுக்கலாம்
+2. தமிழ் எழுத்துகள் மட்டுமே ஆய்வு செய்யப்படும்
+3. Unicode தமிழ் எழுத்துகளை மட்டுமே ஆதரிக்கிறது
